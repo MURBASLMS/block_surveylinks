@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>vendor/guzzlehttp</location>
+        <name>Guzzle, an extensible PHP HTTP client</name>
+        <version>7.3.0</version>
+        <license>MIT</license>
+        <licenseversion>1.0</licenseversion>
+    </library>
+    <library>
+        <location>vendor/psr</location>
+        <name>Psr7 HTTP message interface</name>
+        <version>1.0.1</version>
+        <license>MIT</license>
+        <licenseversion>1.0</licenseversion>
+    </library>
+    <library>
+        <location>vendor/ralouphie</location>
+        <name>getallheaders polyfill</name>
+        <version>3.0.3</version>
+        <license>MIT</license>
+        <licenseversion>1.0</licenseversion>
+    </library>
+</libraries>
