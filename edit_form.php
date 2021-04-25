@@ -91,8 +91,9 @@ class block_surveylinks_edit_form extends block_edit_form {
         }
         $fileextension = core_filetypes::get_file_extension($logofile->get_mimetype());
 
+        $contextid = context_course::instance($COURSE->id)->id;
         $destfilerecord = [
-            'contextid' => context_course::instance($COURSE->id)->id,
+            'contextid' => $contextid,
             'component' => 'block_surveylinks',
             'filearea' => 'logo',
             'itemid' => $COURSE->id,
@@ -102,9 +103,9 @@ class block_surveylinks_edit_form extends block_edit_form {
             'timemodified' => time(),
         ];
 
-        if (!$this->dest_file_exists($destfilerecord, $logofile)) {
-            $fs->create_file_from_storedfile($destfilerecord, $logofile);
-        }
+        // Clear any existing logo images and create the new one.
+        $fs->delete_area_files($contextid, 'block_surveylinks', 'logo', $COURSE->id);
+        $fs->create_file_from_storedfile($destfilerecord, $logofile);
 
         return true;
     }
