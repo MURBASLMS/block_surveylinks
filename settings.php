@@ -14,21 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
+ * Plugin settings.
  *
- * @package   block_surveylinks
- * @copyright 2020 Tristan Mackay
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    block_surveylinks
+ * @author     Andrew Madden <andrewmadden@catalyst-au.net>
+ * @copyright  2021 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-        $settings->add(new admin_setting_configtext('block_surveylinks/surveyApiUrl',
-                           get_string('surveyApiUrl', 'block_surveylinks'),
-                           get_string('surveyApiUrlexplain', 'block_surveylinks'),
+        $settings->add(new admin_setting_configtext('block_surveylinks/apibaseuri',
+                           get_string('apibaseuri', 'block_surveylinks'),
+                           get_string('apibaseuri_desc', 'block_surveylinks'),
                            ''));
-        $settings->add(new admin_setting_configpasswordunmask('block_surveylinks/surveyApiKey',
-                           get_string('surveyApiKey', 'block_surveylinks'),
-                           get_string('surveyApiKeyexplain', 'block_surveylinks'),
+
+        $settings->add(new admin_setting_configpasswordunmask('block_surveylinks/apisecret',
+                           get_string('apisecret', 'block_surveylinks'),
+                           get_string('apisecret_desc', 'block_surveylinks'),
                            ''));
 }

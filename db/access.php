@@ -42,4 +42,12 @@ defined('MOODLE_INTERNAL') || die;
             ),
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
         ),
+
+        'block/surveylinks:viewmysurveylinks' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            ),
+        ),
     );
