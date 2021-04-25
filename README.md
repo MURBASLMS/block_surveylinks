@@ -1,20 +1,21 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Survey links block
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+A block to fetch links to a survey from an external api.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Set up
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Go to `site administration` -> `plugins` -> `blocks` -> `Survey links` and provide a base uri and api secret to fetch the survey links from.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+The api key is currently set to use a subscription key: `Ocp-Apim-Subscription-Key`.
+
+## Changing the HTTP client
+
+If you need to change the http client from guzzle, add a new class named `classes/newname_client` and implement the `\block_surveylinks\http_client_interface`. You will need to update which client the explorance_api uses as well. 
+
+## Capabilities
+
+One capability is provided in addition to the standard block capabilities. - `block/surveylinks:viewmysurveylinks`
+
+Only users with this capability will be able to fetch survey links from the external api. By default, only students are given this capability. 
+
+
