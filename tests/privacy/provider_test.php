@@ -15,25 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy API implementation for plugin.
+ * Test the plugin privacy provider implementation.
  *
  * @package    block_surveylinks
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
-namespace block_surveylinks\privacy;
- 
-class provider implements \core_privacy\local\metadata\null_provider {
- 
+
+class block_surveylinks_provider_testcase extends advanced_testcase {
+    
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
-     *
-     * @return  string
+     * This method runs before every test.
      */
-    public static function get_reason() : string {
-        return 'privacy:metadata';
+    public function setUp() {
+        $this->resetAfterTest();
+    }
+
+    /**
+     * Test the provider get_message implementation.
+     */
+    public function test_get_null_provider_message() {
+        $this->assertEquals('privacy:metadata', \block_surveylinks\privacy\provider::get_reason());
     }
 }
