@@ -20,17 +20,22 @@
     The view for the survey links block.
 
     Example context (json):
-    {}
+    {
+        "surveylink" : {
+            "surveyurl": "https://www.example.com",
+            "surveyid": "test123",
+            "surveyname": "Survey Name",
+            "logosrc": "/pluginfile.php/foo/bar",
+            "linktest": "<p>test</p>",
+            "extratext": "<p>extra test</p>"
+        }
+    }
 }}
 
-<div class="block_surveylinks_view mb-3">
-    <div class="block-content px-0 py-2">
-        {{#surveylink}}
-        <a class="block-btn text-center d-block" target="_blank" href="{{surveyurl}}" data-surveyid="{{surveyid}}" data-surveyname="{{surveyname}}">
-            <img class="img-responsive" alt="survey-logo" src="{{logosrc}}"/>
-            <p>{{{linktext}}}</p>
-        </a>
-        <p class="text-center">{{{extratext}}}</p>
-        {{/surveylink}}
-    </div>
-</div>
+{{#surveylink}}
+<a class="block-btn text-center d-block" target="_blank" href="{{surveyurl}}" data-surveyid="{{surveyid}}" data-surveyname="{{surveyname}}">
+    <img class="img-responsive" alt="survey-logo" src="{{logosrc}}"/>
+    <p>{{{linktext}}}</p>
+</a>
+<p class="text-center">{{{extratext}}}</p>
+{{/surveylink}}
