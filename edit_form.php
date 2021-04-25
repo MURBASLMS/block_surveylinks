@@ -83,6 +83,12 @@ class block_surveylinks_edit_form extends block_edit_form {
         $userdraftfiles = $fs->get_area_files(context_user::instance($USER->id)->id,
             'user', 'draft', $itemid,
             "itemid, filepath, filename", false);
+
+        // If no image is uploaded, don't do anything, but allow form to submit successfully.
+        if (empty($userdraftfiles)) {
+            return true;
+        }
+
         // We are only expecting a single file.
         $logofile = reset($userdraftfiles);
         // Check the file is an image and get file extension.
