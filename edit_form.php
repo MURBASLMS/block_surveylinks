@@ -25,6 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
+require_once($CFG->dirroot . "/blocks/edit_form.php");
+
 class block_surveylinks_edit_form extends block_edit_form {
 
     /**
@@ -48,6 +52,10 @@ class block_surveylinks_edit_form extends block_edit_form {
         $mform->addElement('textarea', 'config_extratext', get_string('blockconfig:extratext', 'block_surveylinks'),
             ['rows' => 3, 'cols' => 41]);
         $mform->setType('config_extratext', PARAM_RAW);
+
+        // Reset default button.
+        $mform->addElement('submit', 'config_resetdefault', get_string('blockconfig:resetdefault', 'block_surveylinks'));
+        $mform->addHelpButton('config_resetdefault', 'blockconfig:resetdefault', 'block_surveylinks');
     }
 
     /**
@@ -57,14 +65,39 @@ class block_surveylinks_edit_form extends block_edit_form {
      * @return object submitted data; NULL if not valid or not submitted or cancelled
      */
     public function get_data() {
-                // If file saved, move it into a file area accessible by all enrolled in course.
+        // If file saved, move it into a file area accessible by all enrolled in course.
         $data = parent::get_data();
-        if (!empty($data) && !empty($data->config_logo)) {
+
+        // If form is empty, do nothing.
+        if (empty($data)) {
+            return $data;
+        }
+
+        // Reset defaults button was clicked, so remove all block level config.
+        if (!empty($data->config_resetdefault)) {
+            // Clear logo files.
+            $this->clear_logo_file();
+            if (!empty($data->config_logo)) {
+                $this->clear_user_draft_files($data->config_logo);
+                $data->config_logo = '';
+            }
+            // Clear text.
+            $data->config_linktext = $this->block->get_link_text_default();
+            $data->config_extratext = $this->block->get_extra_text_default();
+            return $data;
+        }
+
+        // Try and save the uploaded logo.
+        if (!empty($data->config_logo)) {
             if (!$this->save_logo_file($data->config_logo)) {
                 // Logo file couldn't be saved so do not continue.
                 return null;
             }
+            // Clear user draft file as it does not necessarily correlate to the block logo image.
+            $this->clear_user_draft_files($data->config_logo);
+            $data->config_logo = '';
         }
+
         return $data;
     }
 
@@ -117,22 +150,27 @@ class block_surveylinks_edit_form extends block_edit_form {
     }
 
     /**
-     * Check if file already exists at destination.
+     * Clear all user draft files with a specific itemid.
      *
-     * @param array $filerecord
-     * @param stored_file $file
-     * @return false
-     * @throws coding_exception
+     * @param string $itemid User draft file itemid.
+     * @return bool
      */
-    private function dest_file_exists(array $filerecord, stored_file $srcfile) {
+    public function clear_user_draft_files(string $itemid): bool {
+        global $USER;
         $fs = get_file_storage();
-        $files = $fs->get_area_files($filerecord['contextid'], $filerecord['component'],
-            $filerecord['filearea'], $filerecord['itemid'], "itemid, filepath, filename", false);
-        foreach ($files as $file) {
-            if ($fs->file_exists_by_hash($file->get_pathnamehash())) {
-                return true;
-            }
-        }
-        return false;
+        $contextid = context_user::instance($USER->id)->id;
+        return $fs->delete_area_files($contextid, 'user', 'draft', $itemid);
+    }
+
+    /**
+     * Clear any logo file saved in this context.
+     *
+     * @return bool True on success.
+     */
+    public function clear_logo_file(): bool {
+        global $COURSE;
+        $fs = get_file_storage();
+        $contextid = context_course::instance($COURSE->id)->id;
+        return $fs->delete_area_files($contextid, 'block_surveylinks', 'logo', $COURSE->id);
     }
 }

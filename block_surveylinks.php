@@ -190,7 +190,7 @@ class block_surveylinks extends block_base {
      */
     public function get_logo_src(): string {
         global $COURSE;
-        $default = (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+        $default = $this->get_logo_src_default();
 
         // Try and get the logo from the settings.
         $fs = get_file_storage();
@@ -218,7 +218,7 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_link_text(): string {
-        $default = '';
+        $default = $this->get_link_text_default();
 
         if (!empty($this->config->linktext)) {
             return $this->config->linktext;
@@ -233,13 +233,63 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_extra_text(): string {
-        $default = '';
+        $default = $this->get_extra_text_default();
 
         if (!empty($this->config->extratext)) {
             return $this->config->extratext;
         }
 
         return $default;
+    }
+
+    /**
+     * Get the default value for logo src.
+     *
+     * @return string
+     */
+    public function get_logo_src_default(): string {
+        // Get fixture as back up.
+        $default = (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+
+        // Check if file is uploaded in site settings.
+        $filename = get_config('block_surveylinks', 'defaultlogo');
+        if (!empty($filename)) {
+            $fs = get_file_storage();
+            $files = $fs->get_area_files(context_system::instance()->id, 'block_surveylinks',
+                'logo', 0, "itemid, filepath, filename", false);
+            foreach ($files as $file) {
+                if (!$file->is_directory()) {
+                    return moodle_url::make_file_url('/pluginfile.php', '/' . implode('/', [
+                            $file->get_contextid(),
+                            $file->get_component(),
+                            $file->get_filearea(),
+                            $file->get_itemid(),
+                            $file->get_filepath(),
+                            $file->get_filename(),
+                        ]));
+                }
+            }
+        }
+
+        return $default;
+    }
+
+    /**
+     * Get the default value for link text.
+     *
+     * @return string
+     */
+    public function get_link_text_default(): string {
+        return get_config('block_surveylinks', 'defaultlinktext');
+    }
+
+    /**
+     * Get the default value for extra text.
+     *
+     * @return string
+     */
+    public function get_extra_text_default(): string {
+        return get_config('block_surveylinks', 'defaultextratext');
     }
 
 
