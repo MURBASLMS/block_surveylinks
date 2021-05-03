@@ -44,6 +44,8 @@ $string['blockconfig:extratext'] = 'Extra text';
 $string['blockconfig:header'] = 'Display configuration';
 $string['blockconfig:linktext'] = 'Link text';
 $string['blockconfig:logo'] = 'Survey logo file';
+$string['blockconfig:resetdefault'] = 'Reset to defaults';
+$string['blockconfig:resetdefault_help'] = 'Clicking the reset button will set all display fields to their default value.';
 
 // View.
 $string['view:loading'] = 'Loading...';

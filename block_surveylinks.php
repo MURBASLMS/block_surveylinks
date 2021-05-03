@@ -190,7 +190,7 @@ class block_surveylinks extends block_base {
      */
     public function get_logo_src(): string {
         global $COURSE;
-        $default = (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+        $default = $this->get_logo_src_default();
 
         // Try and get the logo from the settings.
         $fs = get_file_storage();
@@ -218,7 +218,7 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_link_text(): string {
-        $default = '';
+        $default = $this->get_link_text_default();
 
         if (!empty($this->config->linktext)) {
             return $this->config->linktext;
@@ -233,13 +233,40 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_extra_text(): string {
-        $default = '';
+        $default = $this->get_extra_text_default();
 
         if (!empty($this->config->extratext)) {
             return $this->config->extratext;
         }
 
         return $default;
+    }
+
+    /**
+     * Get the default value for logo src.
+     *
+     * @return string
+     */
+    public function get_logo_src_default(): string {
+        return (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+    }
+
+    /**
+     * Get the default value for link text.
+     *
+     * @return string
+     */
+    public function get_link_text_default(): string {
+        return '';
+    }
+
+    /**
+     * Get the default value for extra text.
+     *
+     * @return string
+     */
+    public function get_extra_text_default(): string {
+        return '';
     }
 
 
