@@ -25,13 +25,33 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-        $settings->add(new admin_setting_configtext('block_surveylinks/apibaseuri',
-                           get_string('apibaseuri', 'block_surveylinks'),
-                           get_string('apibaseuri_desc', 'block_surveylinks'),
-                           ''));
+    $settings->add(new admin_setting_configtext('block_surveylinks/apibaseuri',
+            get_string('apibaseuri', 'block_surveylinks'),
+            get_string('apibaseuri_desc', 'block_surveylinks'),
+            ''));
 
-        $settings->add(new admin_setting_configpasswordunmask('block_surveylinks/apisecret',
-                           get_string('apisecret', 'block_surveylinks'),
-                           get_string('apisecret_desc', 'block_surveylinks'),
-                           ''));
+    $settings->add(new admin_setting_configpasswordunmask('block_surveylinks/apisecret',
+            get_string('apisecret', 'block_surveylinks'),
+            get_string('apisecret_desc', 'block_surveylinks'),
+            ''));
+
+    // Display defaults.
+    $settings->add(new admin_setting_heading('block_surveylinks/displaydefaults',
+            get_string('displaydefaults', 'block_surveylinks'),
+            get_string('displaydefaults_desc', 'block_surveylinks')));
+
+    $settings->add(new admin_setting_configstoredfile('block_surveylinks/defaultlogo',
+            get_string('defaultlogo', 'block_surveylinks'),
+            get_string('defaultlogo_desc', 'block_surveylinks'),
+            'logo'));
+
+    $settings->add(new admin_setting_configtextarea('block_surveylinks/defaultlinktext',
+            get_string('defaultlinktext', 'block_surveylinks'),
+            get_string('defaultlinktext_desc', 'block_surveylinks'),
+            ''));
+
+    $settings->add(new admin_setting_configtextarea('block_surveylinks/defaultextratext',
+            get_string('defaultextratext', 'block_surveylinks'),
+            get_string('defaultextratext_desc', 'block_surveylinks'),
+            ''));
 }

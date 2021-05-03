@@ -39,11 +39,10 @@ defined('MOODLE_INTERNAL') || die();
  * @throws coding_exception
  */
 function block_surveylinks_pluginfile($course, $birecord, $context, $filearea, $args, $forcedownload, $sendfileoptions) {
-    if ($context->get_course_context(false)) {
+    if ($context->get_course_context(false) || $context->contextlevel === CONTEXT_SYSTEM) {
         // If block is in course context, then check if user has capability to access course.
         require_course_login($course);
 
-        $fs = get_file_storage();
         $itemid = (int)array_shift($args);
         $relativepath = implode('/', $args);
         $fullpath = "/{$context->id}/block_surveylinks/$filearea/$itemid/$relativepath";

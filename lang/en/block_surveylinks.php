@@ -38,6 +38,14 @@ $string['apibaseuri'] = "Base API URI";
 $string['apibaseuri_desc'] = "The base URI used to create HTTP requests to API.";
 $string['apisecret'] = "API Secret";
 $string['apisecret_desc'] = "The client API secret to be sent in the header of HTTP requests to api.";
+$string['displaydefaults'] = "Default block display";
+$string['displaydefaults_desc'] = "Configure the display elements that all surveylinks blocks will default to using.";
+$string['defaultlogo'] = "Default logo";
+$string['defaultlogo_desc'] = "Main call to action image. Only one image can be added at a time.";
+$string['defaultlinktext'] = "Default link text";
+$string['defaultlinktext_desc'] = "Text that will be part of the link to the survey. Can include html.";
+$string['defaultextratext'] = "Default extra text";
+$string['defaultextratext_desc'] = "Text that will appear after the call to action link. Can include html.";
 
 // Block config.
 $string['blockconfig:extratext'] = 'Extra text';

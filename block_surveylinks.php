@@ -248,7 +248,30 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_logo_src_default(): string {
-        return (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+        // Get fixture as back up.
+        $default = (new moodle_url(self::DEFAULT_LOGO_SRC))->out();
+
+        // Check if file is uploaded in site settings.
+        $filename = get_config('block_surveylinks', 'defaultlogo');
+        if (!empty($filename)) {
+            $fs = get_file_storage();
+            $files = $fs->get_area_files(context_system::instance()->id, 'block_surveylinks',
+                'logo', 0, "itemid, filepath, filename", false);
+            foreach ($files as $file) {
+                if (!$file->is_directory()) {
+                    return moodle_url::make_file_url('/pluginfile.php', '/' . implode('/', [
+                            $file->get_contextid(),
+                            $file->get_component(),
+                            $file->get_filearea(),
+                            $file->get_itemid(),
+                            $file->get_filepath(),
+                            $file->get_filename(),
+                        ]));
+                }
+            }
+        }
+
+        return $default;
     }
 
     /**
@@ -257,7 +280,7 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_link_text_default(): string {
-        return '';
+        return get_config('block_surveylinks', 'defaultlinktext');
     }
 
     /**
@@ -266,7 +289,7 @@ class block_surveylinks extends block_base {
      * @return string
      */
     public function get_extra_text_default(): string {
-        return '';
+        return get_config('block_surveylinks', 'defaultextratext');
     }
 
 
