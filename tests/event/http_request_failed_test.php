@@ -25,28 +25,33 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_surveylinks\event;
+
 use block_surveylinks\event\http_request_failed;
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Unit tests for the http_request_failed event.
+ */
+class http_request_failed_test extends \advanced_testcase {
 
-class block_surveylinks_http_request_failed_testcase extends advanced_testcase {
-    
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Test the event was triggered.
+     *
+     * @covers \block_surveylinks\event\http_request_failed::trigger
      */
     public function test_event_is_triggered() {
         $sink = $this->redirectEvents();
         http_request_failed::create([
             'other' => [
                 'reason' => 'Test error message.',
-            ]
+            ],
         ])->trigger();
         $events = $sink->get_events();
         $this->assertCount(1, $events);

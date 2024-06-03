@@ -23,17 +23,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class block_surveylinks_surveylink_model_testcase extends advanced_testcase {
+namespace block_surveylinks;
+
+/**
+ * Test the surveylink model.
+ */
+class surveylink_model_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Test creating model with valid data record.
+     *
+     * @covers \block_surveylinks\surveylink_model::create_model_with_valid_data
      */
     public function test_create_model_with_valid_data() {
         $surveylink = new \block_surveylinks\surveylink_model([
@@ -57,6 +64,8 @@ class block_surveylinks_surveylink_model_testcase extends advanced_testcase {
 
     /**
      * Test creating model with empty data.
+     *
+     * @covers \block_surveylinks\surveylink_model::create_model_with_empty_data
      */
     public function test_create_model_with_no_data() {
         $surveylink = new \block_surveylinks\surveylink_model([]);
@@ -67,6 +76,8 @@ class block_surveylinks_surveylink_model_testcase extends advanced_testcase {
 
     /**
      * Test creating model with data not expected by model.
+     *
+     * @covers \block_surveylinks\surveylink_model::create_model_with_invalid_data
      */
     public function test_create_model_with_invalid_data() {
         $surveylink = new \block_surveylinks\surveylink_model([

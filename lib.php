@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Handle sending a file from the plugin.
  *
@@ -47,7 +45,7 @@ function block_surveylinks_pluginfile($course, $birecord, $context, $filearea, $
         $relativepath = implode('/', $args);
         $fullpath = "/{$context->id}/block_surveylinks/$filearea/$itemid/$relativepath";
         $fs = get_file_storage();
-        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
             return false;
         }
 

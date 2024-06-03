@@ -23,6 +23,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_surveylinks;
+
+use context_user;
+use context_course;
+use moodle_url;
+use stored_file;
+use stdClass;
+use block_base;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -31,17 +40,22 @@ require_once($CFG->libdir . "/blocklib.php");
 require_once($CFG->dirroot . "/blocks/surveylinks/edit_form.php");
 require_once($CFG->dirroot . "/blocks/surveylinks/block_surveylinks.php");
 
-class block_surveylinks_edit_form_testcase extends advanced_testcase {
+/**
+ * Test the configuration of the block.
+ */
+class edit_form_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Test clearing logo file.
+     *
+     * @covers \block_surveylinks_edit_form::clear_logo_file
      */
     public function test_clear_logo_file() {
         global $COURSE, $PAGE;
@@ -54,8 +68,10 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
         $this->assertNotNull($file);
         $this->assertInstanceOf(stored_file::class, $file);
         // Clear file, and check it is removed.
-        $blockedit = new block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-                $this->get_mock_block_instance($course), $PAGE);
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
+            $this->get_mock_block_instance($course),
+            $PAGE
+        );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_logo_file();
         $file = $this->get_logo_file($course);
@@ -64,6 +80,8 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
 
     /**
      * Test clearing logo file if none exists.
+     *
+     * @covers \block_surveylinks_edit_form::clear_logo_file
      */
     public function test_clear_logo_file_if_none_exists() {
         global $COURSE, $PAGE;
@@ -74,8 +92,10 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
         $file = $this->get_logo_file($course);
         $this->assertNull($file);
         // Clear file, and check it is removed.
-        $blockedit = new block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course), $PAGE);
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
+            $this->get_mock_block_instance($course),
+            $PAGE
+        );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_logo_file();
         $file = $this->get_logo_file($course);
@@ -84,12 +104,14 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
 
     /**
      * Test clearing user draft file.
+     *
+     * @covers \block_surveylinks_edit_form::clear_user_draft_files
      */
     public function test_clear_user_draft_files() {
         global $COURSE, $PAGE;
         $course = $this->getDataGenerator()->create_course();
         $COURSE = $course;
-        $user = core_user::get_user(2);
+        $user = \core_user::get_user(2);
         $this->setAdminUser();
         $this->create_user_draft_file($user, '123456');
         // Check file exists.
@@ -97,8 +119,10 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
         $this->assertNotNull($file);
         $this->assertInstanceOf(stored_file::class, $file);
         // Clear file, and check it is removed.
-        $blockedit = new block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course), $PAGE);
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
+            $this->get_mock_block_instance($course),
+            $PAGE
+        );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_user_draft_files('123456');
         $file = $this->get_user_draft_file($user, '123456');
@@ -107,19 +131,23 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
 
     /**
      * Test clearing logo file if none exists.
+     *
+     * @covers \block_surveylinks_edit_form::clear_user_draft_files
      */
     public function test_clear_user_draft_files_if_none_exist() {
         global $COURSE, $PAGE;
         $course = $this->getDataGenerator()->create_course();
         $COURSE = $course;
-        $user = core_user::get_user(2);
+        $user = \core_user::get_user(2);
         $this->setAdminUser();
         // Check file doesn't exist.
         $file = $this->get_user_draft_file($user, '123456');
         $this->assertNull($file);
         // Clear file, and check it is removed.
-        $blockedit = new block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course), $PAGE);
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
+            $this->get_mock_block_instance($course),
+            $PAGE
+        );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_user_draft_files('123456');
         $file = $this->get_user_draft_file($user, '123456');
@@ -149,8 +177,14 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
     protected function get_user_draft_file(stdClass $user, string $itemid): ?stored_file {
         $fs = get_file_storage();
         $filerecord = $this->get_user_draft_file_record($user, $itemid);
-        $file = $fs->get_file($filerecord['contextid'], $filerecord['component'], $filerecord['filearea'],
-            $filerecord['itemid'], $filerecord['filepath'], $filerecord['filename']);
+        $file = $fs->get_file(
+            $filerecord['contextid'],
+            $filerecord['component'],
+            $filerecord['filearea'],
+            $filerecord['itemid'],
+            $filerecord['filepath'],
+            $filerecord['filename']
+        );
         if ($file === false) {
             return null;
         } else {
@@ -200,8 +234,14 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
     protected function get_logo_file(stdClass $course): ?stored_file {
         $fs = get_file_storage();
         $filerecord = $this->get_logo_file_record($course);
-        $file = $fs->get_file($filerecord['contextid'], $filerecord['component'], $filerecord['filearea'],
-                $filerecord['itemid'], $filerecord['filepath'], $filerecord['filename']);
+        $file = $fs->get_file(
+            $filerecord['contextid'],
+            $filerecord['component'],
+            $filerecord['filearea'],
+            $filerecord['itemid'],
+            $filerecord['filepath'],
+            $filerecord['filename']
+        );
         if ($file === false) {
             return null;
         } else {
@@ -250,7 +290,7 @@ class block_surveylinks_edit_form_testcase extends advanced_testcase {
             'timecreated' => 0,
             'timemodified' => 0,
         ];
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $block->instance = $instance;
         $block->context = context_course::instance($course->id);
         return $block;
