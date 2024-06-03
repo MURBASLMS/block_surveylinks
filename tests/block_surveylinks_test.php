@@ -23,19 +23,32 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_surveylinks;
+
+use context_system;
+use context_course;
+use moodle_url;
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../block_surveylinks.php');
 
-class block_surveylinks_block_testcase extends advanced_testcase {
-    
+/**
+ * Test the block definition.
+ */
+class block_surveylinks_test extends \advanced_testcase {
+
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Test content is created when user can view survey links.
+     *
+     * @covers \block_surveylinks::get_content
      */
     public function test_get_content_when_expecting_survey_data() {
         global $COURSE;
@@ -47,13 +60,15 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         $COURSE = $course;
         $this->assign_capability('block/surveylinks:viewmysurveylinks');
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $content = $block->get_content();
         $this->assertNotEmpty($content->text);
     }
 
     /**
      * Test content is not created when user cannot view survey links.
+     *
+     * @covers \block_surveylinks::get_content
      */
     public function test_get_content_when_missing_capability() {
         global $COURSE;
@@ -64,13 +79,15 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         $this->setUser($user);
         $COURSE = $course;
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $content = $block->get_content();
         $this->assertNull($content);
     }
 
     /**
      * Test content is not created when user cannot view survey links.
+     *
+     * @covers \block_surveylinks::get_content
      */
     public function test_get_content_when_site_admin() {
         global $COURSE;
@@ -81,13 +98,15 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         $COURSE = $course;
         $this->assign_capability('block/surveylinks:viewmysurveylinks');
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $content = $block->get_content();
         $this->assertNull($content);
     }
 
     /**
      * Test content is not created when user cannot view survey links.
+     *
+     * @covers \block_surveylinks::get_content
      */
     public function test_get_content_when_missing_plugin_settings() {
         global $COURSE;
@@ -97,13 +116,15 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         $COURSE = $course;
         $this->assign_capability('block/surveylinks:viewmysurveylinks');
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $content = $block->get_content();
         $this->assertNull($content);
     }
 
     /**
      * Test content is not created when user cannot view survey links.
+     *
+     * @covers \block_surveylinks::get_content
      */
     public function test_get_content_when_missing_courseidnumber() {
         global $COURSE;
@@ -115,22 +136,26 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         $COURSE = $course;
         $this->assign_capability('block/surveylinks:viewmysurveylinks');
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $content = $block->get_content();
         $this->assertNull($content);
     }
 
     /**
      * Test get default logo src.
+     *
+     * @covers \block_surveylinks::get_logo_src
      */
     public function test_get_get_logo_src_default() {
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $url = $block->get_logo_src();
         $this->assertEquals((new moodle_url('/blocks/surveylinks/pix/MyFeedback.jpg'))->out(), $url);
     }
 
     /**
      * Test get logo src stored in plugin filearea.
+     *
+     * @covers \block_surveylinks::get_logo_src
      */
     public function test_get_logo_src_config() {
         global $COURSE;
@@ -149,37 +174,41 @@ class block_surveylinks_block_testcase extends advanced_testcase {
         ];
         $file = $fs->create_file_from_string($filerecord, 'test');
 
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $block->config = (object) [
-            'logosrc' => '1234'
+            'logosrc' => '1234',
         ];
         $url = $block->get_logo_src();
         $this->assertEquals(moodle_url::make_file_url('/pluginfile.php', '/' . implode('/', [
-                $file->get_contextid(),
-                $file->get_component(),
-                $file->get_filearea(),
-                $file->get_itemid(),
-                $file->get_filepath(),
-                $file->get_filename(),
-            ])), $url);
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename(),
+        ])), $url);
     }
 
     /**
      * Test get default link text.
+     *
+     * @covers \block_surveylinks::get_link_text
      */
     public function test_get_link_text_default() {
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $text = $block->get_link_text();
         $this->assertEquals('', $text);
     }
 
     /**
      * Test get link defined in config.
+     *
+     * @covers \block_surveylinks::get_link_text
      */
     public function test_get_link_text_config() {
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $block->config = (object) [
-            'linktext' => 'helloworld'
+            'linktext' => 'helloworld',
         ];
         $text = $block->get_link_text();
         $this->assertEquals('helloworld', $text);
@@ -187,20 +216,24 @@ class block_surveylinks_block_testcase extends advanced_testcase {
 
     /**
      * Test get default extra text.
+     *
+     * @covers \block_surveylinks::get_extra_text
      */
     public function test_get_extra_text_default() {
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $text = $block->get_extra_text();
         $this->assertEquals('', $text);
     }
 
     /**
      * Test get extra defined in config.
+     *
+     * @covers \block_surveylinks::get_extra_text
      */
     public function test_get_extra_text_config() {
-        $block = new block_surveylinks();
+        $block = new \block_surveylinks();
         $block->config = (object) [
-            'extratext' => 'helloworld'
+            'extratext' => 'helloworld',
         ];
         $text = $block->get_extra_text();
         $this->assertEquals('helloworld', $text);
@@ -223,13 +256,17 @@ class block_surveylinks_block_testcase extends advanced_testcase {
             $context = $context->id;
         }
         if (empty($this->roles)) {
-            $this->roles = array();
+            $this->roles = [];
         }
         if (empty($this->roles[$USER->id])) {
-            $this->roles[$USER->id] = array();
+            $this->roles[$USER->id] = [];
         }
         if (empty($this->roles[$USER->id][$context])) {
-            $this->roles[$USER->id][$context] = create_role('Role for '.$USER->id.' in '.$context, 'role'.$USER->id.'-'.$context, '-');
+            $this->roles[$USER->id][$context] = create_role(
+                'Role for ' . $USER->id . ' in ' . $context,
+                'role' . $USER->id . '-' . $context,
+                '-'
+            );
             role_assign($this->roles[$USER->id][$context], $USER->id, $context);
         }
         return $this->roles[$USER->id][$context];

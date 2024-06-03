@@ -23,17 +23,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
+namespace block_surveylinks\external\survey_links;
+
+use moodle_exception;
+
+/**
+ * Test the get_survey_links external function.
+ */
+class get_test extends \advanced_testcase {
 
     /**
      * Run before every test.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Check get if user does not have a idnumber.
+     *
+     * @covers \block_surveylinks\external\survey_links\get::get
      */
     public function test_get_surveylinks_user_not_found() {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'course123']);
@@ -44,6 +53,8 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
 
     /**
      * Check get if course does not have a idnumber.
+     *
+     * @covers \block_surveylinks\external\survey_links\get::get
      */
     public function test_get_surveylinks_course_not_found() {
         $user = $this->getDataGenerator()->create_user(['idnumber' => 'user123']);
@@ -54,6 +65,8 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
 
     /**
      * Test survey is available.
+     *
+     * @covers \block_surveylinks\external\survey_links\get::is_survey_available
      */
     public function test_survey_is_available() {
         $surveylink = new \block_surveylinks\surveylink_model([
@@ -74,6 +87,7 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
      * Test that survey is not available.
      *
      * @dataProvider closed_survey_provider
+     * @covers \block_surveylinks\external\survey_links\get::is_survey_available
      */
     public function test_survey_is_not_available(\block_surveylinks\surveylink_model $surveylink) {
         $result = \block_surveylinks\external\survey_links\get::is_survey_available($surveylink);
@@ -82,6 +96,8 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
 
     /**
      * Test unit code from survey matches Moodle course.
+     *
+     * @covers \block_surveylinks\external\survey_links\get::survey_matches_course
      */
     public function test_survey_matches_course() {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'UNIT123']);
@@ -101,6 +117,8 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
 
     /**
      * Test unit code from survey does not match Moodle course.
+     *
+     * @covers \block_surveylinks\external\survey_links\get::survey_matches_course
      */
     public function test_survey_does_not_match_course() {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'UNIT456']);
@@ -123,7 +141,7 @@ class block_surveylinks_get_survey_links_testcase extends advanced_testcase {
      *
      * @return array [surveylink_model]
      */
-    public function closed_survey_provider(): array {
+    public static function closed_survey_provider(): array {
         return [
             'Future survey' => [new \block_surveylinks\surveylink_model([
                 'surveyId' => '1324',

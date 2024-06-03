@@ -23,22 +23,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_surveylinks;
+
 use block_surveylinks\explorance_api;
 use block_surveylinks\tests\mock_client;
 
-defined('MOODLE_INTERNAL') || die();
 
-class block_surveylinks_explorance_api_testcase extends advanced_testcase {
-    
+/**
+ * Test the explorance api.
+ */
+class explorance_api_test extends \advanced_testcase {
+
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
+        if (!defined('MOODLE_INTERNAL')) {
+            define('MOODLE_INTERNAL', true);
+        }
         $this->resetAfterTest();
     }
 
     /**
      * Test getting a list of survelink models.
+     *
+     * @covers \block_surveylinks\explorance_api::get_survey_links
      */
     public function test_get_survey_links() {
         set_config('apibaseuri', 'https://www.example.com', 'block_surveylinks');
@@ -56,32 +65,38 @@ class block_surveylinks_explorance_api_testcase extends advanced_testcase {
                 "surveySubjectId" => "123456",
                 "surveyUnitCode" => "ABC123",
                 "surveyCourseCode" => "A1234",
-            ])
+            ]),
         ];
         $this->assertEquals($expected, $surveylinks);
     }
 
     /**
      * Test exception thrown if api base uri is not set.
+     *
+     * @covers \block_surveylinks\explorance_api::__construct
      */
     public function test_invalid_base_uri_set() {
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:api:nobaseuri', 'block_surveylinks'));
         $api = new explorance_api(new mock_client());
     }
 
     /**
      * Test exception thrown if api secret is not set.
+     *
+     * @covers \block_surveylinks\explorance_api::__construct
      */
     public function test_invalid_credentials_set() {
         set_config('apibaseuri', 'https://www.example.com', 'block_surveylinks');
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:api:credentials', 'block_surveylinks'));
         $api = new explorance_api(new mock_client());
     }
 
     /**
      * Test extracting a subset of data from multidimensional array.
+     *
+     * @covers \block_surveylinks\explorance_api::get_subset_from_multidimensional_array
      */
     public function test_search_multidimensional_array() {
         $data = [
@@ -92,8 +107,8 @@ class block_surveylinks_explorance_api_testcase extends advanced_testcase {
                 ],
                 '1-2' => [
                     '1-2-1' => 1337,
-                    '1-2-2'  => new stdClass(),
-                ]
+                    '1-2-2'  => new \stdClass(),
+                ],
             ],
             2 => [
                 '2-1' => ['No key'],
@@ -101,7 +116,7 @@ class block_surveylinks_explorance_api_testcase extends advanced_testcase {
             [
                 '1-1' => 'Sibling 1-1 should not be found',
                 '1-1-2' => 'Shallow 1-1-2',
-            ]
+            ],
         ];
 
         $this->assertEquals('Hello World!', explorance_api::get_subset_from_multidimensional_array($data, '1-1-1'));
@@ -113,9 +128,12 @@ class block_surveylinks_explorance_api_testcase extends advanced_testcase {
         $this->assertEquals('Shallow 1-1-2', explorance_api::get_subset_from_multidimensional_array($data, '1-1-2'));
         // If there are multiple possible results at same depth, the first found should be returned.
         $this->assertEquals($data['1']['1-1'], explorance_api::get_subset_from_multidimensional_array($data, '1-1'));
-        $this->assertNotEquals('Sibling 1-1 should not be found', explorance_api::get_subset_from_multidimensional_array($data, '1-1'));
+        $this->assertNotEquals(
+            'Sibling 1-1 should not be found',
+            explorance_api::get_subset_from_multidimensional_array($data, '1-1')
+        );
         // Returned data should maintain type.
-        $this->assertInstanceOf(stdClass::class, explorance_api::get_subset_from_multidimensional_array($data, '1-2-2'));
+        $this->assertInstanceOf(\stdClass::class, explorance_api::get_subset_from_multidimensional_array($data, '1-2-2'));
         $this->assertIsArray(explorance_api::get_subset_from_multidimensional_array($data, '1-2'));
         // Non-string keys should also be matched.
         $this->assertCount(1, explorance_api::get_subset_from_multidimensional_array($data, 2));

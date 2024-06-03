@@ -23,17 +23,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class block_surveylinks_provider_testcase extends advanced_testcase {
-    
+namespace block_surveylinks\privacy;
+
+/**
+ * Test the plugin privacy provider implementation.
+ */
+class provider_test extends \advanced_testcase {
+
     /**
      * This method runs before every test.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
     /**
      * Test the provider get_message implementation.
+     *
+     * @covers \block_surveylinks\privacy\provider::get_message
      */
     public function test_get_null_provider_message() {
         $this->assertEquals('privacy:metadata', \block_surveylinks\privacy\provider::get_reason());
