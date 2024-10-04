@@ -37,7 +37,6 @@ class block_surveylinks extends block_base {
      * @throws coding_exception
      */
     public function init() {
-        $this->blockname = get_class($this);
         $this->title = get_string('pluginname', 'block_surveylinks');
     }
 
