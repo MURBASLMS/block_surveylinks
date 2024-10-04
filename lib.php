@@ -33,8 +33,6 @@
  * @param $args
  * @param $forcedownload
  * @param $sendfileoptions
- * @return false
- * @throws coding_exception
  */
 function block_surveylinks_pluginfile($course, $birecord, $context, $filearea, $args, $forcedownload, $sendfileoptions) {
     if ($context->get_course_context(false) || $context->contextlevel === CONTEXT_SYSTEM) {
@@ -45,10 +43,12 @@ function block_surveylinks_pluginfile($course, $birecord, $context, $filearea, $
         $relativepath = implode('/', $args);
         $fullpath = "/{$context->id}/block_surveylinks/$filearea/$itemid/$relativepath";
         $fs = get_file_storage();
-        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
-            return false;
+        $file = $fs->get_file_by_hash(sha1($fullpath));
+
+        if (empty($file) || $file->is_directory()) {
+            send_file_not_found();
         }
 
-        send_stored_file($file, $file->get_filename(), 0, $forcedownload, $sendfileoptions);
+        send_stored_file($file, null, 0, $forcedownload, $sendfileoptions);
     }
 }
