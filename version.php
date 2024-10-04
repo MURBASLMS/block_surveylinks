@@ -28,4 +28,4 @@ $plugin->component = 'block_surveylinks';
 $plugin->version = 2021041900;  // YYYYMMDDHH.
 $plugin->requires = 2019111800; // YYYYMMDDHH Moodle 3.8.0.
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->supported = [401, 404];
+$plugin->supported = [404, 404];
