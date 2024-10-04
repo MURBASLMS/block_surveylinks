@@ -68,9 +68,10 @@ class edit_form_test extends \advanced_testcase {
         $this->assertNotNull($file);
         $this->assertInstanceOf(stored_file::class, $file);
         // Clear file, and check it is removed.
-        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course),
-            $PAGE
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])), [
+                'block' => $this->get_mock_block_instance($course),
+                'page' => $PAGE,
+            ]
         );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_logo_file();
@@ -92,9 +93,10 @@ class edit_form_test extends \advanced_testcase {
         $file = $this->get_logo_file($course);
         $this->assertNull($file);
         // Clear file, and check it is removed.
-        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course),
-            $PAGE
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])), [
+                'block' => $this->get_mock_block_instance($course),
+                'page' => $PAGE,
+            ]
         );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_logo_file();
@@ -119,9 +121,10 @@ class edit_form_test extends \advanced_testcase {
         $this->assertNotNull($file);
         $this->assertInstanceOf(stored_file::class, $file);
         // Clear file, and check it is removed.
-        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course),
-            $PAGE
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])), [
+                'block' => $this->get_mock_block_instance($course),
+                'page' => $PAGE,
+            ]
         );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_user_draft_files('123456');
@@ -144,9 +147,10 @@ class edit_form_test extends \advanced_testcase {
         $file = $this->get_user_draft_file($user, '123456');
         $this->assertNull($file);
         // Clear file, and check it is removed.
-        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])),
-            $this->get_mock_block_instance($course),
-            $PAGE
+        $blockedit = new \block_surveylinks_edit_form((new moodle_url('/course/view.php', ['id' => $course->id])), [
+                'block' => $this->get_mock_block_instance($course),
+                'page' => $PAGE,
+            ]
         );
         $COURSE = $course; // Need to reset the course as the block labyrinth sets it at some point.
         $blockedit->clear_user_draft_files('123456');
