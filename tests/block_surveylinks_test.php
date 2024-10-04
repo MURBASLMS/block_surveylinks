@@ -39,6 +39,12 @@ require_once(__DIR__ . '/../block_surveylinks.php');
 class block_surveylinks_test extends \advanced_testcase {
 
     /**
+     * Roles for testing.
+     * @var array
+     */
+    protected $roles;
+
+    /**
      * This method runs before every test.
      */
     public function setUp(): void {
