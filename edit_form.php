@@ -55,7 +55,6 @@ class block_surveylinks_edit_form extends block_edit_form {
 
         // Reset default button.
         $mform->addElement('submit', 'config_resetdefault', get_string('blockconfig:resetdefault', 'block_surveylinks'));
-        $mform->addHelpButton('config_resetdefault', 'blockconfig:resetdefault', 'block_surveylinks');
     }
 
     /**
