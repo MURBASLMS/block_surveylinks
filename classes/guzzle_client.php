@@ -31,9 +31,6 @@ use GuzzleHttp\Psr7\Request;
 use moodle_url;
 use Psr\Http\Message\ResponseInterface;
 
-global $CFG;
-require_once($CFG->dirroot . '/blocks/surveylinks/vendor/autoload.php');
-
 class guzzle_client implements http_client_interface {
 
     /**
