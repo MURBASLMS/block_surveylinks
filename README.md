@@ -2,6 +2,13 @@
 
 A block to fetch links to a survey from an external api.
 
+## Versions and branches
+
+| Moodle Version   | Branch            | 
+|------------------|-------------------|
+| Moodle 3.9 - 4.1 | main              | 
+| Moodle 4.4+      | MOODLE_404_STABLE | 
+
 ## Set up
 
 Go to `site administration` -> `plugins` -> `blocks` -> `Survey links` and provide a base uri and api secret to fetch the survey links from.
