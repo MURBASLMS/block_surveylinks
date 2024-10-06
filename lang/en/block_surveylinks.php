@@ -22,47 +22,33 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Survey Links';
-$string['block_surveylinks'] = 'Survey Links';
-
-// Capabilities.
-$string['block_surveylinks:addinstance'] = 'Add a new Survey Links block';
-$string['block_surveylinks:myaddinstance'] = 'Add a new Survey Links block to the Moodle page';
-$string['block_surveylinks:viewmysurveylinks'] = 'View own survey links fetched from remote API.';
-
-// Privacy.
-$string['privacy:metadata'] = 'Does not store any individual user data.';
-
-// Settings.
 $string['apibaseuri'] = "Base API URI";
 $string['apibaseuri_desc'] = "The base URI used to create HTTP requests to API.";
 $string['apisecret'] = "API Secret";
 $string['apisecret_desc'] = "The client API secret to be sent in the header of HTTP requests to api.";
-$string['displaydefaults'] = "Default block display";
-$string['displaydefaults_desc'] = "Configure the display elements that all surveylinks blocks will default to using.";
-$string['defaultlogo'] = "Default logo";
-$string['defaultlogo_desc'] = "Main call to action image. Only one image can be added at a time.";
-$string['defaultlinktext'] = "Default link text";
-$string['defaultlinktext_desc'] = "Text that will be part of the link to the survey. Can include html.";
-$string['defaultextratext'] = "Default extra text";
-$string['defaultextratext_desc'] = "Text that will appear after the call to action link. Can include html.";
-
-// Block config.
+$string['block_surveylinks'] = 'Survey Links';
+$string['block_surveylinks:addinstance'] = 'Add a new Survey Links block';
+$string['block_surveylinks:myaddinstance'] = 'Add a new Survey Links block to the Moodle page';
+$string['block_surveylinks:viewmysurveylinks'] = 'View own survey links fetched from remote API.';
 $string['blockconfig:extratext'] = 'Extra text';
 $string['blockconfig:header'] = 'Display configuration';
 $string['blockconfig:linktext'] = 'Link text';
 $string['blockconfig:logo'] = 'Survey logo file';
 $string['blockconfig:resetdefault'] = 'Reset to defaults';
-
-// View.
-$string['view:loading'] = 'Loading...';
-
-// Event.
-$string['event:httprequestfailed'] = 'HTTP request failed';
-
-// Exceptions.
+$string['defaultextratext'] = "Default extra text";
+$string['defaultextratext_desc'] = "Text that will appear after the call to action link. Can include html.";
+$string['defaultlinktext'] = "Default link text";
+$string['defaultlinktext_desc'] = "Text that will be part of the link to the survey. Can include html.";
+$string['defaultlogo'] = "Default logo";
+$string['defaultlogo_desc'] = "Main call to action image. Only one image can be added at a time.";
+$string['displaydefaults'] = "Default block display";
+$string['displaydefaults_desc'] = "Configure the display elements that all surveylinks blocks will default to using.";
 $string['error:api:credentials'] = 'Invalid API secret has been set. See plugin settings.';
 $string['error:api:nobaseuri'] = 'Invalid API base URI has been set. See plugin settings.';
 $string['error:http:get'] = 'HTTP GET request failed';
-$string['error:ws:usernotfound'] = 'User with a valid ID number could not be found.';
 $string['error:ws:coursenotfound'] = 'Course with a valid ID number could not be found.';
+$string['error:ws:usernotfound'] = 'User with a valid ID number could not be found.';
+$string['event:httprequestfailed'] = 'HTTP request failed';
+$string['pluginname'] = 'Survey Links';
+$string['privacy:metadata'] = 'Does not store any individual user data.';
+$string['view:loading'] = 'Loading...';

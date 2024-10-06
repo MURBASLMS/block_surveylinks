@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Abstract class for defining structured models with known attributes.
- *
- * @package    block_surveylinks
- * @author     Tom Dickman <tomdickman@catalyst-au.net>
- * @copyright  2020 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks;
 
 /**
@@ -69,7 +60,7 @@ abstract class model {
      *
      * For example:
      * ATTRIBUTE_SUBMODELS = [
-     *      'unitoffers' => '\local_preview\assessment_unit_offer_model'
+     *      'unitoffers' => '\block_surveylinks\assessment_unit_offer_model'
      * ]
      */
     const ATTRIBUTE_SUBMODELS = [];
@@ -228,7 +219,7 @@ abstract class model {
      *
      * @return bool true if model is immutable, false otherwise.
      */
-    public function is_immutable() : bool {
+    public function is_immutable(): bool {
         return static::IMMUTABLE;
     }
 
@@ -264,7 +255,7 @@ abstract class model {
      *
      * @return array associative array of raw model data.
      */
-    final public function to_raw() : array {
+    final public function to_raw(): array {
         $rawdata = [];
 
         foreach (static::ATTRIBUTE_MAP as $attribute => $rawdatapath) {

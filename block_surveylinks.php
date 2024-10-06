@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die;
+
+
+global $CFG;
+require_once("$CFG->dirroot/blocks/moodleblock.class.php");
+
 /**
  * Block definition.
  *
@@ -22,10 +28,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-global $CFG;
-require_once("$CFG->dirroot/blocks/moodleblock.class.php");
-
 class block_surveylinks extends block_base {
 
     /** Relative URL of the default survey logo. */
@@ -133,20 +135,14 @@ class block_surveylinks extends block_base {
     /**
      * Check whether user can fetch and view survey links.
      *
-     * @param stdClass|null $user Moodle user object.
      * @return bool
-     * @throws coding_exception
      */
-    private function can_user_fetch_survey_links(stdClass $user = null): bool {
+    private function can_user_fetch_survey_links(): bool {
         global $USER, $COURSE;
-
-        if ($user === null) {
-            $user = $USER;
-        }
 
         // Check user has capability to view their surveys. By default, only students should see the block.
         if (!has_capability('block/surveylinks:viewmysurveylinks',
-                context_course::instance($COURSE->id), $user)) {
+                context_course::instance($COURSE->id), $USER)) {
             return false;
         }
 
@@ -161,7 +157,7 @@ class block_surveylinks extends block_base {
         }
 
         // If no course idnumber or user idnumber, no survey link can be found.
-        if (empty($COURSE->idnumber) || empty($user->idnumber)) {
+        if (empty($COURSE->idnumber) || empty($USER->idnumber)) {
             return false;
         }
 

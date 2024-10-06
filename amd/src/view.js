@@ -17,10 +17,10 @@
  * JS code for the view of the surveylinks block.
  *
  * @module     block_surveylinks/view
- * @package    block_surveylinks
  * @copyright  2020 Andrew Madden <andrewmadden@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 import Notification from 'core/notification';
 import Templates from 'core/templates';
 import {getSurveyLinks} from './explorance_api';

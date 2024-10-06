@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks;
+
+use block_surveylinks\explorance_api;
+use block_surveylinks\tests\mock_client;
+
 /**
  * Test the explorance api.
  *
@@ -22,17 +27,7 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks;
-
-use block_surveylinks\explorance_api;
-use block_surveylinks\tests\mock_client;
-
-
-/**
- * Test the explorance api.
- */
-class explorance_api_test extends \advanced_testcase {
+final class explorance_api_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -49,7 +44,7 @@ class explorance_api_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\explorance_api::get_survey_links
      */
-    public function test_get_survey_links() {
+    public function test_get_survey_links(): void {
         set_config('apibaseuri', 'https://www.example.com', 'block_surveylinks');
         set_config('apisecret', 'secret', 'block_surveylinks');
         $api = new explorance_api(new mock_client());
@@ -75,7 +70,7 @@ class explorance_api_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\explorance_api::__construct
      */
-    public function test_invalid_base_uri_set() {
+    public function test_invalid_base_uri_set(): void {
         $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:api:nobaseuri', 'block_surveylinks'));
         $api = new explorance_api(new mock_client());
@@ -86,7 +81,7 @@ class explorance_api_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\explorance_api::__construct
      */
-    public function test_invalid_credentials_set() {
+    public function test_invalid_credentials_set(): void {
         set_config('apibaseuri', 'https://www.example.com', 'block_surveylinks');
         $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:api:credentials', 'block_surveylinks'));
@@ -98,7 +93,7 @@ class explorance_api_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\explorance_api::get_subset_from_multidimensional_array
      */
-    public function test_search_multidimensional_array() {
+    public function test_search_multidimensional_array(): void {
         $data = [
             '1' => [
                 '1-1' => [

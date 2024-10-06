@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+global $CFG;
+
+require_once($CFG->dirroot . "/blocks/edit_form.php");
+
 /**
  * Manage instance settings of the block.
  *
@@ -22,13 +28,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-global $CFG;
-
-require_once($CFG->dirroot . "/blocks/edit_form.php");
-
 class block_surveylinks_edit_form extends block_edit_form {
 
     /**

@@ -13,7 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
+ * Capabilities.
  *
  * @package   block_surveylinks
  * @copyright 2020 Tristan Mackay
@@ -22,32 +24,32 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-    $capabilities = array(
-        'block/surveylinks:myaddinstance' => array(
+    $capabilities = [
+        'block/surveylinks:myaddinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'user' => CAP_ALLOW
-            ),
-        'clonepermissionsfrom' => 'moodle/my:manageblocks'
-        ),
+        'archetypes' => [
+            'user' => CAP_ALLOW,
+            ],
+        'clonepermissionsfrom' => 'moodle/my:manageblocks',
+        ],
 
-        'block/surveylinks:addinstance' => array(
+        'block/surveylinks:addinstance' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-            ),
-        'clonepermissionsfrom' => 'moodle/site:manageblocks'
-        ),
+            'manager' => CAP_ALLOW,
+            ],
+        'clonepermissionsfrom' => 'moodle/site:manageblocks',
+        ],
 
-        'block/surveylinks:viewmysurveylinks' => array(
+        'block/surveylinks:viewmysurveylinks' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'student' => CAP_ALLOW,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];

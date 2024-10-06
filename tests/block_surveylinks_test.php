@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Test the block definition.
- *
- * @package    block_surveylinks
- * @author     Andrew Madden <andrewmadden@catalyst-au.net>
- * @copyright  2021 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks;
 
 use context_system;
@@ -35,8 +26,13 @@ require_once(__DIR__ . '/../block_surveylinks.php');
 
 /**
  * Test the block definition.
+ *
+ * @package    block_surveylinks
+ * @author     Andrew Madden <andrewmadden@catalyst-au.net>
+ * @copyright  2021 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_surveylinks_test extends \advanced_testcase {
+final class block_surveylinks_test extends \advanced_testcase {
 
     /**
      * Roles for testing.
@@ -56,7 +52,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_content
      */
-    public function test_get_content_when_expecting_survey_data() {
+    public function test_get_content_when_expecting_survey_data(): void {
         global $COURSE;
         set_config('apibaseuri', 'https://example.com/api/', 'block_surveylinks');
         set_config('apisecret', 'abc123', 'block_surveylinks');
@@ -76,7 +72,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_content
      */
-    public function test_get_content_when_missing_capability() {
+    public function test_get_content_when_missing_capability(): void {
         global $COURSE;
         set_config('apibaseuri', 'https://example.com/api/', 'block_surveylinks');
         set_config('apisecret', 'abc123', 'block_surveylinks');
@@ -95,7 +91,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_content
      */
-    public function test_get_content_when_site_admin() {
+    public function test_get_content_when_site_admin(): void {
         global $COURSE;
         set_config('apibaseuri', 'https://example.com/api/', 'block_surveylinks');
         set_config('apisecret', 'abc123', 'block_surveylinks');
@@ -114,7 +110,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_content
      */
-    public function test_get_content_when_missing_plugin_settings() {
+    public function test_get_content_when_missing_plugin_settings(): void {
         global $COURSE;
         $user = $this->getDataGenerator()->create_user(['idnumber' => '1234']);
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'qwerty']);
@@ -132,7 +128,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_content
      */
-    public function test_get_content_when_missing_courseidnumber() {
+    public function test_get_content_when_missing_courseidnumber(): void {
         global $COURSE;
         set_config('apibaseuri', 'https://example.com/api/', 'block_surveylinks');
         set_config('apisecret', 'abc123', 'block_surveylinks');
@@ -152,7 +148,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_logo_src
      */
-    public function test_get_get_logo_src_default() {
+    public function test_get_get_logo_src_default(): void {
         $block = new \block_surveylinks();
         $url = $block->get_logo_src();
         $this->assertEquals((new moodle_url('/blocks/surveylinks/pix/MyFeedback.jpg'))->out(), $url);
@@ -163,7 +159,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_logo_src
      */
-    public function test_get_logo_src_config() {
+    public function test_get_logo_src_config(): void {
         global $COURSE;
         $course = $this->getDataGenerator()->create_course();
         $COURSE = $course;
@@ -200,7 +196,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_link_text
      */
-    public function test_get_link_text_default() {
+    public function test_get_link_text_default(): void {
         $block = new \block_surveylinks();
         $text = $block->get_link_text();
         $this->assertEquals('', $text);
@@ -211,7 +207,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_link_text
      */
-    public function test_get_link_text_config() {
+    public function test_get_link_text_config(): void {
         $block = new \block_surveylinks();
         $block->config = (object) [
             'linktext' => 'helloworld',
@@ -225,7 +221,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_extra_text
      */
-    public function test_get_extra_text_default() {
+    public function test_get_extra_text_default(): void {
         $block = new \block_surveylinks();
         $text = $block->get_extra_text();
         $this->assertEquals('', $text);
@@ -236,7 +232,7 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks::get_extra_text
      */
-    public function test_get_extra_text_config() {
+    public function test_get_extra_text_config(): void {
         $block = new \block_surveylinks();
         $block->config = (object) [
             'extratext' => 'helloworld',
@@ -250,8 +246,6 @@ class block_surveylinks_test extends \advanced_testcase {
      *
      * @param null $context
      * @return mixed
-     * @throws coding_exception
-     * @throws dml_exception
      */
     protected function get_roleid($context = null) {
         global $USER;
@@ -284,10 +278,8 @@ class block_surveylinks_test extends \advanced_testcase {
      * @param $capability
      * @param int $permission
      * @param null $contextid
-     * @throws coding_exception
-     * @throws dml_exception
      */
-    protected function assign_capability($capability, $permission = CAP_ALLOW, $contextid = null) {
+    protected function assign_capability($capability, $permission = CAP_ALLOW, $contextid = null): void {
         if ($contextid === null) {
             $contextid = context_system::instance();
         }

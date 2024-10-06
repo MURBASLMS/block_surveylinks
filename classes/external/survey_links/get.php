@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * External function to get survey links from 'explorance' API.
- *
- * @package    block_surveylinks
- * @author     Andrew Madden <andrewmadden@catalyst-au.net>
- * @copyright  2021 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks\external\survey_links;
 
 use block_surveylinks\explorance_api;
@@ -34,6 +25,14 @@ use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
 
+/**
+ * External function to get survey links from 'explorance' API.
+ *
+ * @package    block_surveylinks
+ * @author     Andrew Madden <andrewmadden@catalyst-au.net>
+ * @copyright  2021 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class get extends external_api {
 
     /**
@@ -59,9 +58,12 @@ class get extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function get(int $userid, int $courseid): array {
+    public static function execute(int $userid, int $courseid): array {
         global $DB;
-        ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(self::get_parameters(), ['userid' => $userid, 'courseid' => $courseid]);
+        ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(
+            self::get_parameters(),
+            ['userid' => $userid, 'courseid' => $courseid]
+        );
 
         // Close the session to prevent blocking while external API call is made.
         \core\session\manager::write_close();

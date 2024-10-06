@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Test the configuration of the block.
- *
- * @package    block_surveylinks
- * @author     Andrew Madden <andrewmadden@catalyst-au.net>
- * @copyright  2021 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks;
 
 use context_user;
@@ -42,8 +33,13 @@ require_once($CFG->dirroot . "/blocks/surveylinks/block_surveylinks.php");
 
 /**
  * Test the configuration of the block.
+ *
+ * @package    block_surveylinks
+ * @author     Andrew Madden <andrewmadden@catalyst-au.net>
+ * @copyright  2021 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class edit_form_test extends \advanced_testcase {
+final class edit_form_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -57,7 +53,7 @@ class edit_form_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks_edit_form::clear_logo_file
      */
-    public function test_clear_logo_file() {
+    public function test_clear_logo_file(): void {
         global $COURSE, $PAGE;
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
@@ -84,7 +80,7 @@ class edit_form_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks_edit_form::clear_logo_file
      */
-    public function test_clear_logo_file_if_none_exists() {
+    public function test_clear_logo_file_if_none_exists(): void {
         global $COURSE, $PAGE;
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
@@ -109,7 +105,7 @@ class edit_form_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks_edit_form::clear_user_draft_files
      */
-    public function test_clear_user_draft_files() {
+    public function test_clear_user_draft_files(): void {
         global $COURSE, $PAGE;
         $course = $this->getDataGenerator()->create_course();
         $COURSE = $course;
@@ -137,7 +133,7 @@ class edit_form_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks_edit_form::clear_user_draft_files
      */
-    public function test_clear_user_draft_files_if_none_exist() {
+    public function test_clear_user_draft_files_if_none_exist(): void {
         global $COURSE, $PAGE;
         $course = $this->getDataGenerator()->create_course();
         $COURSE = $course;

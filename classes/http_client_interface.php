@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Interface for a client used to make HTTP requests.
- *
- * @package    block_surveylinks
- * @author     Tom Dickman <tomdickman@catalyst-au.net>
- * @copyright  2020 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks;
 
 /**
@@ -46,5 +37,5 @@ interface http_client_interface {
      *
      * @throws \moodle_exception if the HTTP request failed with no response.
      */
-    public function get(string $uri, array $params = [], array $headers = []) : array;
+    public function get(string $uri, array $params = [], array $headers = []): array;
 }

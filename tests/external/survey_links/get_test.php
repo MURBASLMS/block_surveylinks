@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks\external\survey_links;
+
+use moodle_exception;
+
 /**
  * Test the get_survey_links external function.
  *
@@ -22,15 +26,7 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks\external\survey_links;
-
-use moodle_exception;
-
-/**
- * Test the get_survey_links external function.
- */
-class get_test extends \advanced_testcase {
+final class get_test extends \advanced_testcase {
 
     /**
      * Run before every test.
@@ -41,26 +37,24 @@ class get_test extends \advanced_testcase {
 
     /**
      * Check get if user does not have a idnumber.
-     *
-     * @covers \block_surveylinks\external\survey_links\get::get
+     * @covers \block_surveylinks\external\survey_links\get::execute
      */
-    public function test_get_surveylinks_user_not_found() {
+    public function test_get_surveylinks_user_not_found(): void {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'course123']);
         $this->expectException(moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:ws:usernotfound', 'block_surveylinks'));
-        \block_surveylinks\external\survey_links\get::get(1234, $course->id);
+        \block_surveylinks\external\survey_links\get::execute(1234, $course->id);
     }
 
     /**
      * Check get if course does not have a idnumber.
-     *
-     * @covers \block_surveylinks\external\survey_links\get::get
+     * @covers \block_surveylinks\external\survey_links\get::execute
      */
-    public function test_get_surveylinks_course_not_found() {
+    public function test_get_surveylinks_course_not_found(): void {
         $user = $this->getDataGenerator()->create_user(['idnumber' => 'user123']);
         $this->expectException(moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:ws:coursenotfound', 'block_surveylinks'));
-        \block_surveylinks\external\survey_links\get::get($user->id, 1234);
+        \block_surveylinks\external\survey_links\get::execute($user->id, 1234);
     }
 
     /**
@@ -68,7 +62,7 @@ class get_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\external\survey_links\get::is_survey_available
      */
-    public function test_survey_is_available() {
+    public function test_survey_is_available(): void {
         $surveylink = new \block_surveylinks\surveylink_model([
             'surveyId' => '1324',
             'surveyName' => 'Test Survey',
@@ -88,8 +82,12 @@ class get_test extends \advanced_testcase {
      *
      * @dataProvider closed_survey_provider
      * @covers \block_surveylinks\external\survey_links\get::is_survey_available
+     *
+     * @param \block_surveylinks\surveylink_model $surveylink
+     *
+     * @return void
      */
-    public function test_survey_is_not_available(\block_surveylinks\surveylink_model $surveylink) {
+    public function test_survey_is_not_available(\block_surveylinks\surveylink_model $surveylink): void {
         $result = \block_surveylinks\external\survey_links\get::is_survey_available($surveylink);
         $this->assertFalse($result);
     }
@@ -99,7 +97,7 @@ class get_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\external\survey_links\get::survey_matches_course
      */
-    public function test_survey_matches_course() {
+    public function test_survey_matches_course(): void {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'UNIT123']);
         $surveylink = new \block_surveylinks\surveylink_model([
             'surveyId' => '1324',
@@ -120,7 +118,7 @@ class get_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\external\survey_links\get::survey_matches_course
      */
-    public function test_survey_does_not_match_course() {
+    public function test_survey_does_not_match_course(): void {
         $course = $this->getDataGenerator()->create_course(['idnumber' => 'UNIT456']);
         $surveylink = new \block_surveylinks\surveylink_model([
             'surveyId' => '1324',

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks;
+
 /**
  * Test the surveylink model.
  *
@@ -22,13 +24,7 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks;
-
-/**
- * Test the surveylink model.
- */
-class surveylink_model_test extends \advanced_testcase {
+final class surveylink_model_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -42,7 +38,7 @@ class surveylink_model_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\surveylink_model::create_model_with_valid_data
      */
-    public function test_create_model_with_valid_data() {
+    public function test_create_model_with_valid_data(): void {
         $surveylink = new \block_surveylinks\surveylink_model([
             'surveyId' => '1324',
             'surveyName' => 'Test Survey',
@@ -67,7 +63,7 @@ class surveylink_model_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\surveylink_model::create_model_with_empty_data
      */
-    public function test_create_model_with_no_data() {
+    public function test_create_model_with_no_data(): void {
         $surveylink = new \block_surveylinks\surveylink_model([]);
         $this->assertInstanceOf(\block_surveylinks\surveylink_model::class, $surveylink);
         $this->assertNull($surveylink->surveyid);
@@ -79,7 +75,7 @@ class surveylink_model_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\surveylink_model::create_model_with_invalid_data
      */
-    public function test_create_model_with_invalid_data() {
+    public function test_create_model_with_invalid_data(): void {
         $surveylink = new \block_surveylinks\surveylink_model([
             'id' => '123',
             'name' => 'Test Name',
