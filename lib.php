@@ -26,13 +26,13 @@
 /**
  * Handle sending a file from the plugin.
  *
- * @param $course
- * @param $birecord
- * @param $context
- * @param $filearea
- * @param $args
- * @param $forcedownload
- * @param $sendfileoptions
+ * @param stdClass $course course object
+ * @param stdClass $birecord block instance record
+ * @param context $context context object
+ * @param string $filearea file area
+ * @param array $args extra arguments
+ * @param bool $forcedownload whether or not force download
+ * @param array $sendfileoptions additional options affecting the file serving
  */
 function block_surveylinks_pluginfile($course, $birecord, $context, $filearea, $args, $forcedownload, $sendfileoptions) {
     if ($context->get_course_context(false) || $context->contextlevel === CONTEXT_SYSTEM) {

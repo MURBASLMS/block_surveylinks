@@ -275,11 +275,11 @@ final class block_surveylinks_test extends \advanced_testcase {
     /**
      * Helper method to assign a system capability.
      *
-     * @param $capability
+     * @param string $capability
      * @param int $permission
      * @param null $contextid
      */
-    protected function assign_capability($capability, $permission = CAP_ALLOW, $contextid = null): void {
+    protected function assign_capability(string $capability, $permission = CAP_ALLOW, $contextid = null): void {
         if ($contextid === null) {
             $contextid = context_system::instance();
         }
