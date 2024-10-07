@@ -40,7 +40,7 @@ class get extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_parameters(): external_function_parameters {
+    public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'userid' => new external_value(PARAM_INT, 'User id'),
             'courseid' => new external_value(PARAM_INT, 'Course id'),
@@ -61,7 +61,7 @@ class get extends external_api {
     public static function execute(int $userid, int $courseid): array {
         global $DB;
         ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(
-            self::get_parameters(),
+            self::execute_parameters(),
             ['userid' => $userid, 'courseid' => $courseid]
         );
 
@@ -94,7 +94,7 @@ class get extends external_api {
      *
      * @return external_multiple_structure
      */
-    public static function get_returns(): external_multiple_structure {
+    public static function execute_returns(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'surveyid' => new external_value(PARAM_TEXT, ''),
             'surveyname' => new external_value(PARAM_TEXT, ''),
