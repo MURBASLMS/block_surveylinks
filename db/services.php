@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $functions = [
     'block_surveylinks_get_survey_links' => [
         'classname' => 'block_surveylinks\external\survey_links\get',
-        'methodname' => 'get',
+        'methodname' => 'execute',
         'description' => 'Get all survey links for current user from \'explorance\' API.',
         'type' => 'read',
         'ajax' => true,

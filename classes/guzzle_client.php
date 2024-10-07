@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Guzzle client for making HTTP requests.
- *
- * @package    block_surveylinks
- * @author     Tom Dickman <tomdickman@catalyst-au.net>
- * @copyright  2020 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace block_surveylinks;
 
 use GuzzleHttp\Client;
@@ -31,9 +22,14 @@ use GuzzleHttp\Psr7\Request;
 use moodle_url;
 use Psr\Http\Message\ResponseInterface;
 
-global $CFG;
-require_once($CFG->dirroot . '/blocks/surveylinks/vendor/autoload.php');
-
+/**
+ * Guzzle client for making HTTP requests.
+ *
+ * @package    block_surveylinks
+ * @author     Tom Dickman <tomdickman@catalyst-au.net>
+ * @copyright  2020 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class guzzle_client implements http_client_interface {
 
     /**
@@ -90,7 +86,7 @@ class guzzle_client implements http_client_interface {
      *
      * @throws http_exception if the HTTP request failed.
      */
-    public function get(string $uri, array $params = [], array $headers = []) : array {
+    public function get(string $uri, array $params = [], array $headers = []): array {
         $url = new moodle_url($uri, $params);
         $uri = $url->out(false);
         $request = new Request('GET', $uri, $headers);

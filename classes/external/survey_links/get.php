@@ -14,6 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks\external\survey_links;
+
+use block_surveylinks\explorance_api;
+use block_surveylinks\guzzle_client;
+use block_surveylinks\surveylink_model;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
+
 /**
  * External function to get survey links from 'explorance' API.
  *
@@ -22,21 +33,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks\external\survey_links;
-
-use block_surveylinks\explorance_api;
-use block_surveylinks\guzzle_client;
-use block_surveylinks\surveylink_model;
-use external_api;
-use external_function_parameters;
-use external_multiple_structure;
-use external_single_structure;
-use external_value;
-
-global $CFG;
-require_once($CFG->libdir . '/externallib.php');
-
 class get extends external_api {
 
     /**
@@ -44,7 +40,7 @@ class get extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_parameters(): external_function_parameters {
+    public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'userid' => new external_value(PARAM_INT, 'User id'),
             'courseid' => new external_value(PARAM_INT, 'Course id'),
@@ -62,9 +58,12 @@ class get extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function get(int $userid, int $courseid): array {
+    public static function execute(int $userid, int $courseid): array {
         global $DB;
-        ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(self::get_parameters(), ['userid' => $userid, 'courseid' => $courseid]);
+        ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(
+            self::execute_parameters(),
+            ['userid' => $userid, 'courseid' => $courseid]
+        );
 
         // Close the session to prevent blocking while external API call is made.
         \core\session\manager::write_close();
@@ -95,7 +94,7 @@ class get extends external_api {
      *
      * @return external_multiple_structure
      */
-    public static function get_returns(): external_multiple_structure {
+    public static function execute_returns(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'surveyid' => new external_value(PARAM_TEXT, ''),
             'surveyname' => new external_value(PARAM_TEXT, ''),

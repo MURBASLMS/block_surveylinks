@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks\event;
+
+use block_surveylinks\event\http_request_failed;
+
 /**
  * This is a Moodle file.
  *
@@ -24,15 +28,7 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks\event;
-
-use block_surveylinks\event\http_request_failed;
-
-/**
- * Unit tests for the http_request_failed event.
- */
-class http_request_failed_test extends \advanced_testcase {
+final class http_request_failed_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -46,7 +42,7 @@ class http_request_failed_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\event\http_request_failed::trigger
      */
-    public function test_event_is_triggered() {
+    public function test_event_is_triggered(): void {
         $sink = $this->redirectEvents();
         http_request_failed::create([
             'other' => [

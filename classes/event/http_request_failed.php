@@ -14,17 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Events triggered when HTTP request failed.
- *
- * @package    block_surveylinks
- * @author     Tom Dickman <tomdickman@catalyst-au.net>
- * @copyright  2020 Catalyst IT
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace block_surveylinks\event;
-
-defined('MOODLE_INTERNAL') || die();
 
  /**
   * Events triggered when HTTP request failed.
@@ -34,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
   *      - string reason: description of why request failed.
   * }
   *
-  * @package    local_preview
+  * @package    block_surveylinks
   * @author     Tom Dickman <tomdickman@catalyst-au.net>
   * @copyright  2020 Catalyst IT
   * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

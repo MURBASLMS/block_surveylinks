@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks;
+
+use moodle_exception;
+
 /**
  * Exception thrown when error with HTTP request/response.
  *
@@ -22,10 +26,5 @@
  * @copyright  2020 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks;
-
-use moodle_exception;
-
 class http_exception extends moodle_exception {
 }

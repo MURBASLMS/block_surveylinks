@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks\tests;
+
 /**
  * Mock HTTP client for unit tests.
  *
@@ -22,11 +24,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks\tests;
-
-defined('MOODLE_INTERNAL') || die();
-
 class mock_client implements \block_surveylinks\http_client_interface {
 
     /**
@@ -51,7 +48,7 @@ class mock_client implements \block_surveylinks\http_client_interface {
                     "surveyUnitCode" => "ABC123",
                     "surveyCourseCode" => "A1234",
                 ],
-            ]
+            ],
         ];
     }
 }

@@ -18,7 +18,6 @@
  *
  * @module     block_surveylinks/explorance_api
  * @class      explorance_api
- * @package    block_surveylinks
  * @copyright  2021 Andrew Madden <andrewmadden@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

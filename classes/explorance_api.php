@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks;
+
+use block_surveylinks\event\http_request_failed;
+
 /**
  * Manage the API calls to explorance API.
  *
@@ -22,11 +26,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks;
-
-use block_surveylinks\event\http_request_failed;
-
 class explorance_api {
 
     /** Header used for sending Client Secret with API requests. */
@@ -101,7 +100,7 @@ class explorance_api {
      * @return array validated response content models.
      * @throws \moodle_exception if there was an issue with API call response data.
      */
-    protected function call(array $params = []) : array {
+    protected function call(array $params = []): array {
         $responsedata = [];
         $uri = $this->get_uri($params);
 
@@ -113,7 +112,7 @@ class explorance_api {
             http_request_failed::create([
                 'other' => [
                     'reason' => $exception->getMessage(),
-                ]
+                ],
             ])->trigger();
         }
 

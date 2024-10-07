@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks\privacy;
+
 /**
  * Test the plugin privacy provider implementation.
  *
@@ -22,13 +24,7 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks\privacy;
-
-/**
- * Test the plugin privacy provider implementation.
- */
-class provider_test extends \advanced_testcase {
+final class provider_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -42,7 +38,7 @@ class provider_test extends \advanced_testcase {
      *
      * @covers \block_surveylinks\privacy\provider::get_message
      */
-    public function test_get_null_provider_message() {
+    public function test_get_null_provider_message(): void {
         $this->assertEquals('privacy:metadata', \block_surveylinks\privacy\provider::get_reason());
     }
 }

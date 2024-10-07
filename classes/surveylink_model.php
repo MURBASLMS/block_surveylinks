@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace block_surveylinks;
+
 /**
  * Model for Explorance survey links data.
  *
@@ -22,9 +24,6 @@
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_surveylinks;
-
 class surveylink_model extends model {
 
     /** Status when survey is open. */
