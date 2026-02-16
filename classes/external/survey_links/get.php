@@ -28,14 +28,13 @@ namespace block_surveylinks\external\survey_links;
 use block_surveylinks\explorance_api;
 use block_surveylinks\guzzle_client;
 use block_surveylinks\surveylink_model;
-use external_api;
-use external_function_parameters;
-use external_multiple_structure;
-use external_single_structure;
-use external_value;
-
-global $CFG;
-require_once($CFG->libdir . '/externallib.php');
+use core\exception\moodle_exception;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
+use local_callista\model\course_unit;
 
 class get extends external_api {
 
@@ -57,33 +56,46 @@ class get extends external_api {
      * @param int $userid User ID.
      * @param int $courseid Course ID.
      * @return array
-     *
-     * @throws \dml_exception
-     * @throws \invalid_parameter_exception
-     * @throws \moodle_exception
      */
     public static function get(int $userid, int $courseid): array {
         global $DB;
-        ['userid' => $userid, 'courseid' => $courseid] = self::validate_parameters(self::get_parameters(), ['userid' => $userid, 'courseid' => $courseid]);
+
+        [
+            'userid' => $userid,
+            'courseid' => $courseid
+        ] = self::validate_parameters(self::get_parameters(), ['userid' => $userid, 'courseid' => $courseid]);
 
         // Close the session to prevent blocking while external API call is made.
         \core\session\manager::write_close();
 
         $useridnumber = $DB->get_field('user', 'idnumber', ['id' => $userid]);
         if (empty($useridnumber)) {
-            throw new \moodle_exception('error:ws:usernotfound', 'block_surveylinks');
+            throw new moodle_exception('error:ws:usernotfound', 'block_surveylinks');
         }
-        $courseidnumber = $DB->get_field('course', 'idnumber', ['id' => $courseid]);
-        if (empty($courseidnumber)) {
-            throw new \moodle_exception('error:ws:coursenotfound', 'block_surveylinks');
+
+        $courseunits = course_unit::get_records(['courseid' => $courseid]);
+        if (empty($courseunits)) {
+            return [];
         }
+
+        $unitcodes = array_map(function($courseunit) {
+            return $courseunit->get('unitcode');
+        }, $courseunits);
+
         $api = new explorance_api(new guzzle_client());
-        $surveylinks = $api->get_survey_links($useridnumber, $courseidnumber);
+        $surveylinks = [];
+        foreach ($unitcodes as $unitcode) {
+            $surveylinks = array_merge($surveylinks, $api->get_survey_links($useridnumber, $unitcode));
+        }
 
         // Filter and deserialize the survey link data.
+        $surveyids = [];
         $records = [];
         foreach ($surveylinks as $surveylink) {
-            if (self::is_survey_available($surveylink) && self::survey_matches_course($surveylink, $courseidnumber)) {
+            if (self::is_survey_available($surveylink) && self::survey_matches_course($surveylink, $unitcodes)
+                    && !in_array($surveylink->surveyid, $surveyids)) {
+
+                $surveyids[] = $surveylink->surveyid;
                 $records[] = $surveylink->to_record();
             }
         }
@@ -131,11 +143,14 @@ class get extends external_api {
      * Check that the survey unit code matches the course unit code.
      *
      * @param surveylink_model $surveylink Model of survey link data.
-     * @param string $courseidnumber ID Number for course.
+     * @param string|array $unitcodes The unit code, or codes.
      * @return bool
      */
-    public static function survey_matches_course(surveylink_model $surveylink, $courseidnumber): bool {
-        return $surveylink->surveyunitcode === $courseidnumber;
+    public static function survey_matches_course(surveylink_model $surveylink, $unitcodes): bool {
+        if (is_array($unitcodes)) {
+            return in_array($surveylink->surveyunitcode, $unitcodes);
+        }
+        return $surveylink->surveyunitcode === $unitcodes;
     }
 }
 

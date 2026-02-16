@@ -48,9 +48,9 @@ class surveylink_model extends model {
     const ATTRIBUTE_MAP = [
         'surveyid' => 'surveyId',
         'surveyname' => 'surveyName',
-        'surveysubjectid' => 'surveySubjectID',
-        'surveyunitcode' => 'surveyUnitCode',
-        'surveycoursecode' => 'surveyCourseCode',
+        'surveysubjectid' => 'surveySubjectId',
+        'surveyunitcode' => 'unitCode',
+        'surveycoursecode' => 'courseCode',
         'surveyurl' => 'surveyUrl',
         'startdate' => 'startDate',
         'enddate' => 'endDate',

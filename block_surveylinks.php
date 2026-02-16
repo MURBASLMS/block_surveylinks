@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_callista\model\course_unit;
+
 global $CFG;
 require_once("$CFG->dirroot/blocks/moodleblock.class.php");
 
@@ -88,7 +90,7 @@ class block_surveylinks extends block_base {
      * @return stdObject
      */
     public function get_content() {
-        global $OUTPUT;
+        global $COURSE, $OUTPUT, $USER;
 
         if (isset($this->content)) {
             return $this->content;
@@ -103,19 +105,6 @@ class block_surveylinks extends block_base {
             'footer' => '',
         ];
 
-        return $this->content;
-    }
-
-    /**
-     * Allows the block to load any JS it requires into the page.
-     */
-    public function get_required_javascript() {
-        global $USER, $COURSE;
-
-        if (!$this->can_user_fetch_survey_links()) {
-            return null;
-        }
-
         // Prepare data.
         $logosrc = $this->get_logo_src();
         $linktext = $this->get_link_text();
@@ -129,6 +118,7 @@ class block_surveylinks extends block_base {
         ];
 
         $this->page->requires->js_call_amd('block_surveylinks/view', 'init', $params);
+        return $this->content;
     }
 
     /**
@@ -138,7 +128,7 @@ class block_surveylinks extends block_base {
      * @return bool
      * @throws coding_exception
      */
-    private function can_user_fetch_survey_links(stdClass $user = null): bool {
+    private function can_user_fetch_survey_links(?stdClass $user = null): bool {
         global $USER, $COURSE;
 
         if ($user === null) {
@@ -146,8 +136,7 @@ class block_surveylinks extends block_base {
         }
 
         // Check user has capability to view their surveys. By default, only students should see the block.
-        if (!has_capability('block/surveylinks:viewmysurveylinks',
-                context_course::instance($COURSE->id), $user)) {
+        if (!has_capability('block/surveylinks:viewmysurveylinks', context_course::instance($COURSE->id), $user)) {
             return false;
         }
 
@@ -161,8 +150,18 @@ class block_surveylinks extends block_base {
             return false;
         }
 
-        // If no course idnumber or user idnumber, no survey link can be found.
-        if (empty($COURSE->idnumber) || empty($user->idnumber)) {
+        // If no user idnumber, bail.
+        if (empty($user->idnumber)) {
+            return false;
+        }
+
+        // Nothing outside a course.
+        if ($COURSE->id == SITEID) {
+            return false;
+        }
+
+        // If no course units, bail.
+        if (!course_unit::record_exists_select('courseid = ?', [$COURSE->id])) {
             return false;
         }
 
