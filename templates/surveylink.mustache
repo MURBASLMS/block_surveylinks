@@ -33,9 +33,16 @@
 }}
 
 {{#surveylink}}
-<a class="block-btn text-center d-block" target="_blank" href="{{surveyurl}}" data-surveyid="{{surveyid}}" data-surveyname="{{surveyname}}">
-    <img class="img-responsive" alt="survey-logo" src="{{logosrc}}"/>
-    <p>{{{linktext}}}</p>
-</a>
-<p class="text-center">{{{extratext}}}</p>
+<div class="survey-card">
+  <div class="survey-content">
+    <div class="survey-icon">
+      <span class="icon-pencil">📝</span>
+    </div>
+    <div class="survey-text">
+      <h3>Unit & Teaching Surveys</h3>
+      <p>Your feedback helps us improve your learning experience.</p>
+    </div>
+  </div>
+  <a href="{{ surveyurl }}" class="survey-button">Start Survey <span class="arrow">→</span></a>
+</div>
 {{/surveylink}}

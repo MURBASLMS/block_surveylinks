@@ -1,0 +1,95 @@
+.block_surveylinks_view {
+  --primary-red: #e31b23;
+  --dark-red: #b3151b;
+}
+
+.block_surveylinks_view .survey-card {
+  background: white;
+  border-left: 5px solid var(--primary-red);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  font-family: sans-serif;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Make the whole card feel clickable */
+.block_surveylinks_view .survey-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.block_surveylinks_view .survey-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.block_surveylinks_view .survey-icon {
+  font-size: 32px;
+  background: #fff0f0;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.block_surveylinks_view .survey-text h3 {
+  margin: 0;
+  color: var(--primary-red);
+  font-size: 1.2rem;
+}
+
+.block_surveylinks_view .survey-text p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* This is the visual "Click me" cue */
+.block_surveylinks_view .survey-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-red);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.2s;
+  /* Subtle pulse animation to draw attention */
+  animation: block_surveylinks_pulse 2s infinite;
+}
+
+.block_surveylinks_view .survey-button:hover {
+  background-color: var(--dark-red);
+}
+
+.block_surveylinks_view .arrow {
+  margin-left: 8px;
+  transition: transform 0.2s;
+}
+
+.block_surveylinks_view .survey-card:hover .arrow {
+  transform: translateX(5px);
+}
+
+@keyframes block_surveylinks_pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(227, 27, 35, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0);
+  }
+}

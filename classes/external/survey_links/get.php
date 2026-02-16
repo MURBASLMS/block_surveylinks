@@ -89,16 +89,14 @@ class get extends external_api {
         }
 
         // Filter and deserialize the survey link data.
-        $surveyids = [];
         $records = [];
         foreach ($surveylinks as $surveylink) {
-            if (self::is_survey_available($surveylink) && self::survey_matches_course($surveylink, $unitcodes)
-                    && !in_array($surveylink->surveyid, $surveyids)) {
-
-                $surveyids[] = $surveylink->surveyid;
+            if (self::is_survey_available($surveylink) && self::survey_matches_course($surveylink, $unitcodes)) {
                 $records[] = $surveylink->to_record();
+                break; // We only display one survey at a time anyway.
             }
         }
+
         return $records;
     }
 
