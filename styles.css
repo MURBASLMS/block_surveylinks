@@ -1,90 +1,112 @@
-.block_surveylinks_view {
-  --primary-red: #e31b23;
-  --dark-red: #b3151b;
+/* 1. Prevent all underlines and default link colors */
+.block_surveylinks_view .survey-final-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+  max-width: 320px;
+  margin: 15px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.block_surveylinks_view .survey-card {
-  background: white;
-  border-left: 5px solid var(--primary-red);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 400px;
-  font-family: sans-serif;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+.block_surveylinks_view .survey-final-card {
+  position: relative;
+  /* Restore the red left border */
+  border-left: 6px solid #e31b23;
+  padding: 5px 0 5px 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  text-decoration: none;
-  color: #333;
+  gap: 12px;
+  background: transparent;
+  transition: transform 0.2s ease;
 }
 
-/* Make the whole card feel clickable */
-.block_surveylinks_view .survey-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+/* Interaction: Slight horizontal nudge on hover */
+.block_surveylinks_view .survey-final-link:hover .survey-final-card {
+  transform: translateX(4px);
 }
 
-.block_surveylinks_view .survey-content {
+/* 2. Header and Typography */
+.block_surveylinks_view .survey-final-header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
-.block_surveylinks_view .survey-icon {
-  font-size: 32px;
-  background: #fff0f0;
-  padding: 10px;
-  border-radius: 50%;
+.block_surveylinks_view .survey-final-icon {
+  flex-shrink: 0;
 }
 
-.block_surveylinks_view .survey-text h3 {
+.block_surveylinks_view .survey-final-title {
   margin: 0;
-  color: var(--primary-red);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  /* Specifically kill potential inherited underlines */
+  text-decoration: none !important;
 }
 
-.block_surveylinks_view .survey-text p {
-  margin: 5px 0 0;
-  font-size: 0.9rem;
-  color: #666;
+.block_surveylinks_view .survey-final-text {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.3;
+  text-decoration: none !important;
 }
 
-/* This is the visual "Click me" cue */
-.block_surveylinks_view .survey-button {
-  display: inline-flex;
+/* 3. The Button - High Urgency */
+.block_surveylinks_view .survey-final-btn {
+  background-color: #e31b23;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: var(--primary-red);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  text-align: center;
+  justify-content: space-between;
+  margin-top: 5px;
   transition: background 0.2s;
-  /* Subtle pulse animation to draw attention */
-  animation: block_surveylinks_pulse 2s infinite;
+  /* Noticeable Pulse Animation */
+  animation: block-surveylinks-final-pulse 3s infinite;
 }
 
-.block_surveylinks_view .survey-button:hover {
-  background-color: var(--dark-red);
+.block_surveylinks_view .btn-labels {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
-.block_surveylinks_view .arrow {
-  margin-left: 8px;
+.block_surveylinks_view .btn-main-txt {
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.block_surveylinks_view .btn-sub-txt {
+  font-size: 0.8rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.block_surveylinks_view .btn-arrow-icon {
+  font-size: 1.4rem;
   transition: transform 0.2s;
 }
 
-.block_surveylinks_view .survey-card:hover .arrow {
+/* Hover effects for the button */
+.block_surveylinks_view .survey-final-link:hover .survey-final-btn {
+  background-color: #b3151b;
+  animation: none; /* Stops pulse on hover */
+}
+
+.block_surveylinks_view .survey-final-link:hover .btn-arrow-icon {
   transform: translateX(5px);
 }
 
-@keyframes block_surveylinks_pulse {
+/* 4. Animations */
+@keyframes block-surveylinks-final-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0.4);
+    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0.5);
   }
   70% {
     box-shadow: 0 0 0 10px rgba(227, 27, 35, 0);
@@ -92,4 +114,29 @@
   100% {
     box-shadow: 0 0 0 0 rgba(227, 27, 35, 0);
   }
+}
+
+.block_surveylinks_view .star-final {
+  animation: block-surveylinks-star-twinkle 3s infinite ease-in-out;
+  transform-origin: center;
+}
+.block_surveylinks_view .s2 {
+  animation-delay: 1.5s;
+}
+@keyframes block-surveylinks-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Accessibility */
+.block_surveylinks_view .survey-final-link:focus .survey-final-btn {
+  outline: 3px solid rgba(227, 27, 35, 0.4);
+  outline-offset: 3px;
 }

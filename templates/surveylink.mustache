@@ -33,16 +33,31 @@
 }}
 
 {{#surveylink}}
-<div class="survey-card">
-  <div class="survey-content">
-    <div class="survey-icon">
-      <span class="icon-pencil">📝</span>
+<a href="{{ surveyurl }}" class="survey-final-link">
+  <div class="survey-final-card">
+    <div class="survey-final-header">
+      <div class="survey-final-icon">
+        <!-- Fancy Illustrative Icon with Twinkling Stars -->
+        <svg width="50" height="50" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 34C44 40.6 38.6 46 32 46H14L6 54V34C6 27.3 11.3 22 18 22H32C38.6 22 44 27.3 44 34Z" fill="#FEE2E2"/>
+          <path d="M56 22C56 28.6 50.6 34 44 34H30C23.3 34 18 28.6 18 22C18 15.3 23.3 10 30 10H44C50.6 10 56 15.3 56 22Z" fill="#E31B23"/>
+          <path d="M26 18H48M26 26H38" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path class="star-final" d="M12 8L13.2 10.5L16 11L14 13L14.5 16L12 14.5L9.5 16L10 13L8 11L10.8 10.5L12 8Z" fill="#FBBF24"/>
+          <path class="star-final s2" d="M58 38L59.2 40.5L62 41L60 43L60.5 46L58 44.5L55.5 46L56 43L54 41L56.8 40.5L58 38Z" fill="#FBBF24"/>
+        </svg>
+      </div>
+      <h3 class="survey-final-title">MyFeedback Unit Surveys</h3>
     </div>
-    <div class="survey-text">
-      <h3>Unit & Teaching Surveys</h3>
-      <p>Your feedback helps us improve your learning experience.</p>
+
+    <p class="survey-final-text">Your feedback shapes your learning experience.</p>
+
+    <div class="survey-final-btn">
+      <div class="btn-labels">
+        <span class="btn-main-txt">START SURVEY</span>
+        <span class="btn-sub-txt">(2–3 min)</span>
+      </div>
+      <span class="btn-arrow-icon">→</span>
     </div>
   </div>
-  <a href="{{ surveyurl }}" class="survey-button">Start Survey <span class="arrow">→</span></a>
-</div>
+</a>
 {{/surveylink}}
