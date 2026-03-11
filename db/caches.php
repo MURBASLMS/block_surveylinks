@@ -13,21 +13,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Plugin version info.
+ * Cache definitions for Survey Links
+ *
+ * Documentation: {@link https://docs.moodle.org/dev/Cache_API}
  *
  * @package    block_surveylinks
- * @author     Andrew Madden <andrewmadden@catalyst-au.net>
- * @copyright  2021 Catalyst IT
+ * @category   cache
+ * @copyright  2026 Murdoch University
+ * @author     Frédéric Massart <fred@branchup.tech>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_surveylinks';
-$plugin->version = 2026031100;  // YYYYMMDDHH.
-$plugin->requires = 2019111800; // YYYYMMDDHH Moodle 3.8.0.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->dependencies = [
-    'local_callista' => 2026021600,
+$definitions = [
+    'links' => [
+        'mode' => core_cache\store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'ttl' => 3600,
+    ],
 ];

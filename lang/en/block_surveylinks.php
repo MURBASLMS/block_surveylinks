@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['cachedef_links'] = 'Links';
 $string['pluginname'] = 'Survey Links';
 $string['block_surveylinks'] = 'Survey Links';
 

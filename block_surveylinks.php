@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use local_callista\model\course_unit;
+use block_surveylinks\links_reader;
 
 global $CFG;
 require_once("$CFG->dirroot/blocks/moodleblock.class.php");
@@ -160,8 +160,9 @@ class block_surveylinks extends block_base {
             return false;
         }
 
-        // If no course units, bail.
-        if (!course_unit::record_exists_select('courseid = ?', [$COURSE->id])) {
+        // Check if we have links, or we don't know yet.
+        $reader = new links_reader($COURSE->id, $user->id);
+        if (!$reader->has_links_or_unknown()) {
             return false;
         }
 

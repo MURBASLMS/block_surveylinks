@@ -25,8 +25,7 @@
 
 namespace block_surveylinks\external\survey_links;
 
-use block_surveylinks\explorance_api;
-use block_surveylinks\guzzle_client;
+use block_surveylinks\links_reader;
 use block_surveylinks\surveylink_model;
 use core\exception\moodle_exception;
 use core_external\external_api;
@@ -34,7 +33,6 @@ use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
-use local_callista\model\course_unit;
 
 class get extends external_api {
 
@@ -58,7 +56,7 @@ class get extends external_api {
      * @return array
      */
     public static function get(int $userid, int $courseid): array {
-        global $DB;
+        global $USER;
 
         [
             'userid' => $userid,
@@ -68,34 +66,15 @@ class get extends external_api {
         // Close the session to prevent blocking while external API call is made.
         \core\session\manager::write_close();
 
-        $useridnumber = $DB->get_field('user', 'idnumber', ['id' => $userid]);
-        if (empty($useridnumber)) {
+        if ($userid != $USER->id) {
             throw new moodle_exception('error:ws:usernotfound', 'block_surveylinks');
         }
 
-        $courseunits = course_unit::get_records(['courseid' => $courseid]);
-        if (empty($courseunits)) {
-            return [];
-        }
-
-        $unitcodes = array_map(function($courseunit) {
-            return $courseunit->get('unitcode');
-        }, $courseunits);
-
-        $api = new explorance_api(new guzzle_client());
-        $surveylinks = [];
-        foreach ($unitcodes as $unitcode) {
-            $surveylinks = array_merge($surveylinks, $api->get_survey_links($useridnumber, $unitcode));
-        }
-
-        // Filter and deserialize the survey link data.
-        $records = [];
-        foreach ($surveylinks as $surveylink) {
-            if (self::is_survey_available($surveylink) && self::survey_matches_course($surveylink, $unitcodes)) {
-                $records[] = $surveylink->to_record();
-                break; // We only display one survey at a time anyway.
-            }
-        }
+        // Fetch and return the first link.
+        $reader = new links_reader($courseid, $userid);
+        $surveylinks = $reader->get_links();
+        $surveylink = reset($surveylinks);
+        $records = $surveylink ? [$surveylink->to_record()] : [];
 
         return $records;
     }
